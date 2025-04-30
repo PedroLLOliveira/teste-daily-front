@@ -1,27 +1,58 @@
-import React from 'react';
+// src/Controls.tsx
+import React, { useState, useEffect } from 'react';
 import { useDaily } from '@daily-co/daily-react';
+import './Controls.css';
 
 export default function Controls() {
   const callObject = useDaily();
+  const [isAudioOn, setIsAudioOn] = useState<boolean>(true);
 
-  // Se não tiver callObject, não renderiza nada
+  // só para inicializar conforme o estado real
+  useEffect(() => {
+    if (!callObject) return;
+    setIsAudioOn(callObject.localAudio());
+  }, [callObject]);
+
   if (!callObject) return null;
 
-  // Lê o estado atual do áudio local
-  const isAudioOn = callObject.localAudio();
+  const toggleAudio = () => {
+    const next = !isAudioOn;
+    callObject.setLocalAudio(next);
+    setIsAudioOn(next);               // atualiza o estado imediatamente
+  };
 
   return (
-    <div style={{ marginTop: 20 }}>
-      <button onClick={() => callObject.setLocalAudio(!isAudioOn)}>
-        {isAudioOn ? '🔇 Mute' : '🎤 Unmute'}
+    <div className="controls-bar">
+      {/* Mute / Unmute */}
+      <button
+        className={`control-btn ${!isAudioOn ? 'muted' : ''}`}
+        onClick={toggleAudio}
+        title={isAudioOn ? 'Desligar Áudio' : 'Ligar Áudio'}
+      >
+        <span className="control-icon">{isAudioOn ? '🎤' : '🔇'}</span>
+        <span className="control-text">
+          {isAudioOn ? 'Desligar Áudio' : 'Ligar Áudio'}
+        </span>
       </button>
 
-      <button onClick={() => callObject.startScreenShare()}>
-        📺 Compartilhar tela
+      {/* Compartilhar tela */}
+      <button
+        className="control-btn"
+        onClick={() => callObject.startScreenShare()}
+        title="Compartilhar tela"
+      >
+        <span className="control-icon">🖥️</span>
+        <span className="control-text">Tela</span>
       </button>
 
-      <button onClick={() => callObject.leave()}>
-        🚪 Sair
+      {/* Sair da chamada */}
+      <button
+        className="control-btn"
+        onClick={() => callObject.leave()}
+        title="Sair da chamada"
+      >
+        <span className="control-icon">🚪</span>
+        <span className="control-text">Sair</span>
       </button>
     </div>
   );

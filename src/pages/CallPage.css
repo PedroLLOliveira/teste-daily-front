@@ -1,0 +1,114 @@
+/* Container principal — exibe header + grid + padding para controles */
+.call-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #1e1e1e;
+    color: #fff;
+  }
+  
+  /* Header fixo no topo */
+  .call-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: #161616;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    z-index: 10;
+    flex: 0 0 auto;
+  }
+  
+  /* Grid de vídeos ocupa todo o espaço restante menos a altura dos controles */
+  .video-grid {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;    /* faz os filhos crescerem na vertical */
+    gap: 12px;
+    padding: 12px;
+    /* cria espaço inferior para a barra de controles flutuante não cobrir os vídeos */
+    padding-bottom: 100px;
+    background: #121212;
+    overflow-y: auto;
+  }
+  
+  /* Cada participante ocupa metade da largura e toda a altura disponível na grid */
+  .participant {
+    position: relative;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    flex: 0 1 calc(50% - 12px); /* dois cards lado a lado com gap de 12px */
+    height: 100%;               /* força crescer até a altura completa da grid */
+  }
+  
+  /* Vídeo preenche todo o container */
+  .participant-video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Nome sobreposto no rodapé do vídeo */
+  .participant-name {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.7);
+    padding: 4px 6px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  
+  /* Barra de controles fixa na base */
+  .controls-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+    z-index: 20;
+    flex: 0 0 auto;
+  }
+  
+  /* Botões de controle com ícone+texto */
+  .control-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background .2s, transform .1s;
+    min-width: 96px;
+  }
+  
+  .control-btn:hover {
+    background: #e0e0e0;
+    transform: scale(1.05);
+  }
+  
+  .control-btn.muted {
+    background: #f39c12;
+  }
+  
+  .control-icon {
+    font-size: 1.5rem;
+  }
+  
+  .control-text {
+    font-size: 0.8rem;
+    color: #333;
+    white-space: nowrap;
+  }
+  
